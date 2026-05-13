@@ -55,7 +55,9 @@ int main() {
   if (config.num_attention_heads == 0 || config.hidden_size % config.num_attention_heads != 0) {
     throw std::runtime_error(
         "Invalid Qwen2 config: num_attention_heads must be non-zero and hidden_size must be "
-        "divisible by num_attention_heads");
+        "divisible by num_attention_heads (hidden_size=" +
+        std::to_string(config.hidden_size) + ", num_attention_heads=" +
+        std::to_string(config.num_attention_heads) + ")");
   }
 
   istaroth::runtime::KvCache cache({

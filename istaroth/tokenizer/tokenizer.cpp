@@ -17,6 +17,12 @@ bool Tokenizer::LoadFromJson(const std::string& tokenizer_json_path) {
   if (content.find('{') == std::string::npos || content.find('}') == std::string::npos) {
     return false;
   }
+  if (content.find(':') == std::string::npos) {
+    return false;
+  }
+  if (content.find("\"model\"") == std::string::npos && content.find("\"version\"") == std::string::npos) {
+    return false;
+  }
 
   tokenizer_json_path_ = tokenizer_json_path;
   return true;

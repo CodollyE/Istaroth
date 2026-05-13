@@ -25,7 +25,7 @@ CPU-only build works by default when CUDA compiler is unavailable.
 ### CMake options
 
 - `USE_CPM` (default `OFF`): reserve CPM-based dependency wiring
-- `QWEN2_SUPPORT` (default `ON`): compile with Qwen2 support flag
+- `QWEN2_SUPPORT` (default `ON`): toggles `ISTAROTH_QWEN2_SUPPORT` compile definition so Qwen2-specific codepaths can be gated at compile time
 - `CUDA` (default `ON`): enable CUDA language only if a CUDA compiler is found
 
 ## Qwen2 export workflow (placeholder)

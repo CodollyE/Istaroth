@@ -1,6 +1,7 @@
 #include "istaroth/core/tensor.h"
 
 #include <numeric>
+#include <string>
 #include <stdexcept>
 
 namespace istaroth::core {
@@ -17,7 +18,8 @@ std::size_t DTypeSize(DType type) {
     case DType::kInt32:
       return 4;
     default:
-      throw std::invalid_argument("Unsupported tensor dtype");
+      throw std::invalid_argument("Unsupported tensor dtype: " +
+                                  std::to_string(static_cast<int>(type)));
   }
 }
 

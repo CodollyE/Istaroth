@@ -1,5 +1,6 @@
 #include "istaroth/model/config_loader.h"
 
+#include <filesystem>
 #include <fstream>
 #include <regex>
 #include <sstream>
@@ -9,9 +10,13 @@ namespace istaroth::model {
 namespace {
 
 std::string ReadText(const std::string& path) {
+  if (!std::filesystem::exists(path)) {
+    throw std::runtime_error("Config file does not exist: " + path);
+  }
+
   std::ifstream ifs(path);
   if (!ifs) {
-    throw std::runtime_error("Failed to open config file: " + path);
+    throw std::runtime_error("Config file exists but could not be read: " + path);
   }
   std::ostringstream oss;
   oss << ifs.rdbuf();
