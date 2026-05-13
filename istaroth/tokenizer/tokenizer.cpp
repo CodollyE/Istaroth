@@ -1,6 +1,7 @@
 #include "istaroth/tokenizer/tokenizer.h"
 
 #include <fstream>
+#include <sstream>
 
 namespace istaroth::tokenizer {
 
@@ -9,6 +10,14 @@ bool Tokenizer::LoadFromJson(const std::string& tokenizer_json_path) {
   if (!ifs) {
     return false;
   }
+
+  std::ostringstream oss;
+  oss << ifs.rdbuf();
+  const std::string content = oss.str();
+  if (content.find('{') == std::string::npos || content.find('}') == std::string::npos) {
+    return false;
+  }
+
   tokenizer_json_path_ = tokenizer_json_path;
   return true;
 }

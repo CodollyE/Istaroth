@@ -16,8 +16,9 @@ std::size_t DTypeSize(DType type) {
       return 2;
     case DType::kInt32:
       return 4;
+    default:
+      throw std::invalid_argument("Unsupported tensor dtype");
   }
-  throw std::invalid_argument("Unsupported tensor dtype");
 }
 
 std::size_t Numel(const std::vector<std::size_t>& shape) {

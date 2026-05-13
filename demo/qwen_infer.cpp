@@ -16,7 +16,7 @@
 
 namespace {
 
-void EnsurePlaceholderFile(const std::filesystem::path& path, const std::string& content) {
+void CreatePlaceholderFileIfMissing(const std::filesystem::path& path, const std::string& content) {
   if (std::filesystem::exists(path)) {
     return;
   }
@@ -32,9 +32,9 @@ int main() {
   const auto config_path = cwd / "qwen2_config.json";
   const auto tokenizer_path = cwd / "tokenizer.json";
 
-  EnsurePlaceholderFile(config_path,
-                        R"({"hidden_size":896,"num_attention_heads":14,"num_hidden_layers":24,"vocab_size":151936,"max_position_embeddings":32768})");
-  EnsurePlaceholderFile(tokenizer_path, R"({"version":"placeholder"})");
+  CreatePlaceholderFileIfMissing(config_path,
+                                 R"({"hidden_size":896,"num_attention_heads":14,"num_hidden_layers":24,"vocab_size":151936,"max_position_embeddings":32768})");
+  CreatePlaceholderFileIfMissing(tokenizer_path, R"({"version":"placeholder"})");
 
   const auto config = istaroth::model::LoadQwen2Config(config_path.string());
 
@@ -54,7 +54,8 @@ int main() {
 
   if (config.num_attention_heads == 0 || config.hidden_size % config.num_attention_heads != 0) {
     throw std::runtime_error(
-        "Invalid Qwen2 config: hidden_size must be divisible by num_attention_heads");
+        "Invalid Qwen2 config: num_attention_heads must be non-zero and hidden_size must be "
+        "divisible by num_attention_heads");
   }
 
   istaroth::runtime::KvCache cache({
