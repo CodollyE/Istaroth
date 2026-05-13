@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include <memory>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -51,10 +52,15 @@ int main() {
   istaroth::core::Tensor input_tensor(shape, istaroth::core::DType::kFloat32,
                                       std::move(input_buffer));
 
+  if (config.num_attention_heads == 0 || config.hidden_size % config.num_attention_heads != 0) {
+    throw std::runtime_error(
+        "Invalid Qwen2 config: hidden_size must be divisible by num_attention_heads");
+  }
+
   istaroth::runtime::KvCache cache({
       .num_layers = config.num_hidden_layers,
       .num_kv_heads = config.num_attention_heads,
-      .head_dim = config.hidden_size / std::max<std::size_t>(1, config.num_attention_heads),
+      .head_dim = config.hidden_size / config.num_attention_heads,
       .max_seq_len = config.max_position_embeddings,
   });
   cache.Advance(shape.back());

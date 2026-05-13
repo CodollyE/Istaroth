@@ -14,6 +14,7 @@ bool Tokenizer::LoadFromJson(const std::string& tokenizer_json_path) {
 }
 
 std::vector<int> Tokenizer::Encode(const std::string& text) const {
+  // TODO: Replace this placeholder character-level encoding with Qwen2 tokenizer.json BPE.
   std::vector<int> ids;
   ids.reserve(text.size());
   for (unsigned char c : text) {

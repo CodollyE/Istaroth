@@ -24,7 +24,7 @@ std::size_t ExtractUnsigned(const std::string& content, const std::string& key) 
   if (std::regex_search(content, match, pattern) && match.size() > 1) {
     return static_cast<std::size_t>(std::stoull(match[1].str()));
   }
-  return 0;
+  throw std::runtime_error("Missing required Qwen2 config key: " + key);
 }
 
 }  // namespace

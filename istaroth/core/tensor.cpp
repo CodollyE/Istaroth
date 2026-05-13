@@ -22,7 +22,7 @@ std::size_t DTypeSize(DType type) {
 
 std::size_t Numel(const std::vector<std::size_t>& shape) {
   if (shape.empty()) {
-    return 0;
+    return 1;
   }
   return std::accumulate(shape.begin(), shape.end(), std::size_t{1},
                          [](std::size_t left, std::size_t right) { return left * right; });
